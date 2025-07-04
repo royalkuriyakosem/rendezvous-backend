@@ -3,17 +3,6 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 require('dotenv').config();
 
-require('./models/User');
-require('./models/Event');
-require('./models/Service');
-require('./models/Booking');
-require('./models/Notification');
-require('./models/Payment');
-require('./models/Review');
-require('./models/Task');
-require('./models/Attendee');
-require('./models/EventCategory');
-require('./models/ServiceCategory');
 
 const app = express();
 app.use(cors());
@@ -26,6 +15,32 @@ mongoose.connect(process.env.MONGO_URI, {
 app.get('/', (req, res) => {
   res.send("API Running");
 });
+
+const userRoutes = require('./routes/users');
+const eventRoutes = require('./routes/events');
+const serviceRoutes = require('./routes/services');
+const bookingRoutes = require('./routes/bookings');
+const notificationRoutes = require('./routes/notifications');
+const attendeeRoutes = require('./routes/attendees');
+const paymentRoutes = require('./routes/payments');
+const reviewRoutes = require('./routes/reviews');
+const taskRoutes = require('./routes/tasks');
+const eventCategoryRoutes = require('./routes/eventCategories');
+const serviceCategoryRoutes = require('./routes/serviceCategories');
+const authRoutes = require('./routes/auth');
+
+app.use('/api/users', userRoutes);
+app.use('/api/events', eventRoutes);
+app.use('/api/services', serviceRoutes);
+app.use('/api/bookings', bookingRoutes);
+app.use('/api/notifications', notificationRoutes);
+app.use('/api/attendees', attendeeRoutes);
+app.use('/api/payments', paymentRoutes);
+app.use('/api/reviews', reviewRoutes);
+app.use('/api/tasks', taskRoutes);
+app.use('/api/eventCategories', eventCategoryRoutes);
+app.use('/api/serviceCategories', serviceCategoryRoutes);
+app.use('/api/auth', authRoutes);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
